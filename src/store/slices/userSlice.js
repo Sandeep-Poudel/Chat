@@ -16,10 +16,16 @@ const userSlice = createSlice({
         logOut: (state) => {
             state.user = null;
             state.isLoggedin = false;
+        },
+        setLoading: (state, action) => {
+            state.isLoading = action.payload;
+        },
+        setError: (state, action) => {
+            state.error = action.payload;
         }
     }
 
 });
 
-export const {logIn,logOut} = userSlice.actions;
+export const {logIn,logOut,setError,setLoading} = userSlice.actions;
 export const userReducer = userSlice.reducer;

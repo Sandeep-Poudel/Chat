@@ -1,18 +1,54 @@
 import Input from "../Reusable/Input";
 import { useState } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { changeEmail, changePassword, changeUsername } from '../../store'
+import useAuth from '../../hooks/useAuth'
 import { GoLock, GoMail, GoPerson } from 'react-icons/go'
 import Button from "../Reusable/Button";
 import Line from "../Reusable/Line";
 import Panel from "../Reusable/Panel";
+import icon from '../../assets/icons8-google.svg'
 
-function SignupForm({toggleView, username, password, email}) {
+function SignupForm({ toggleView, username, password, email }) {
     const dispatch = useDispatch();
     const [isTouch, setIsTouch] = useState(false);
-    
+    const [errors, setErrors] = useState({}); // State for validation errors
+
+    const { createAccountWithEmail, signInWithGoogle } = useAuth();
+
 
     const passwordError = isTouch && password.length < 8 ? "Password must be at least 8 characters" : null;
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const validationErrors = validateFormData({ username, email, password });
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length === 0) {
+
+            console.log(email)
+            createAccountWithEmail(username, email, password);
+        }
+    };
+
+
+    
+    const validateFormData = (data) => {
+        const errors = {};
+        if (!data.username || data.username.length < 4) {
+            errors.username = "Username must be at least 4 characters";
+        }
+        if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+            errors.email = "Invalid email format";
+        }
+        if (!data.password || data.password.length < 8) {
+            errors.password = "Password must be at least 8 characters";
+        }
+        return errors;
+    };
+
+
 
     const handleUsernameChange = (e) => {
         dispatch(changeUsername(e.target.value))
@@ -35,6 +71,7 @@ function SignupForm({toggleView, username, password, email}) {
                                 label="Username"
                                 type="text"
                                 required
+                                error={errors.username}
                                 placeholder="Enter your username"
                                 value={username}
                                 onChange={handleUsernameChange}
@@ -48,6 +85,7 @@ function SignupForm({toggleView, username, password, email}) {
                                 placeholder="Enter your email"
                                 value={email}
                                 icon={<GoMail />}
+                                error={errors.email}
                                 required
                                 onChange={handleEmailChange}
                             />
@@ -66,7 +104,7 @@ function SignupForm({toggleView, username, password, email}) {
                             />
                         </div>
                         <div className="mt-3 flex flex-col items-center justify-center self-center flex-1 w-full">
-                            <Button type="submit" primary rounded className="w-36 items-center justify-center ">
+                            <Button type="submit" onClick={handleSubmit} primary rounded className="w-36 items-center justify-center ">
                                 Sign Up
                             </Button>
 
@@ -74,8 +112,9 @@ function SignupForm({toggleView, username, password, email}) {
                                 <Line />Or<Line />
                             </div>
 
-                            <Button rounded className="justify-center">
-                                <GoMail className="mr-3" />
+                            <Button rounded secondary className="justify-center" onClick={signInWithGoogle}>
+                                <img src={icon} className="w-5 mx-3" alt="Sign up with google" />
+
                                 Sign Up with Google
                             </Button>
                         </div>

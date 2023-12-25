@@ -1,5 +1,5 @@
 import { changeEmail, changePassword, changeUsername, formReducer } from './slices/formSlice'
-import { logIn, logOut, userReducer } from './slices/userSlice'
+import { logIn, logOut, setError, setLoading, userReducer } from './slices/userSlice'
 import { configureStore } from '@reduxjs/toolkit'
 const store = configureStore({
     reducer: {
@@ -13,6 +13,8 @@ export {
     changeEmail,
     changePassword,
     changeUsername,
+    setError,
+    setLoading,
     logOut,
     logIn
 }

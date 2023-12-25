@@ -1,17 +1,27 @@
 import Input from "../Reusable/Input";
 import { useState } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { changeEmail, changePassword } from '../../store'
 import { GoLock, GoMail } from 'react-icons/go'
+import useAuth from '../../hooks/useAuth'
+
 import Button from "../Reusable/Button";
 import Panel from "../Reusable/Panel";
 import Line from "../Reusable/Line";
+import icon from '../../assets/icons8-google.svg'
 
-
-function LoginForm({ toggleView , password, email}) {
+function LoginForm({ toggleView, password, email }) {
     const dispatch = useDispatch();
     const [isTouch, setIsTouch] = useState(false);
-    
+    const { loginWithEmail, signInWithGoogle } = useAuth();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(email)
+        loginWithEmail(email, password);
+    }
+
+
 
     const passwordError = isTouch && password.length < 8 ? "Password must be at least 8 characters" : null;
 
@@ -55,7 +65,7 @@ function LoginForm({ toggleView , password, email}) {
                             />
                         </div>
                         <div className="mt-2 flex flex-col items-center justify-center self-center flex-1 w-full">
-                            <Button type="submit" primary rounded className="w-36 items-center justify-center ">
+                            <Button type="submit" onClick={handleSubmit} primary rounded className="w-36 items-center justify-center ">
                                 Login
                             </Button>
 
@@ -63,8 +73,8 @@ function LoginForm({ toggleView , password, email}) {
                                 <Line />Or<Line />
                             </div>
 
-                            <Button rounded className="justify-center">
-                                <GoMail className="mr-3" />
+                            <Button secondary rounded onClick={signInWithGoogle} className="justify-center">
+                                <img src={icon} className="w-5 mx-3" alt="login with google" />
                                 Login with Google
                             </Button>
                         </div>

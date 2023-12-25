@@ -2,9 +2,11 @@ import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 function Authenticate() {
     const [isLoginView, setIsLoginView] = useState(true);
+    const isLoggedin = useSelector((state) => state.user.isLoggedin);
     const toggleView = () => {
         setIsLoginView(!isLoginView); // Toggle the view state
     };
@@ -15,6 +17,9 @@ function Authenticate() {
             email: state.form.email
         }
     });
+    if (isLoggedin) {
+        return <Navigate to="/home" replace />
+    };
     return (
         <div className="flex items-center justify-center h-screen flex-col bg-gray-100" >
             <div className="w-[480px]">
