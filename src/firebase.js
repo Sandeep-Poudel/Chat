@@ -3,6 +3,7 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 const firebaseConfig = {
     // Your web app's Firebase configuration
+   
 };
 
 const provider = new GoogleAuthProvider();
