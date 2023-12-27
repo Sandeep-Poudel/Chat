@@ -4,19 +4,27 @@ import { useDispatch } from "react-redux";
 import { changeEmail, changePassword, changeUsername } from '../../store'
 import useAuth from '../../hooks/useAuth'
 import { GoLock, GoMail, GoPerson } from 'react-icons/go'
+import { useSelector } from "react-redux";
+import Error from "../Reusable/Error";
 import Button from "../Reusable/Button";
 import Line from "../Reusable/Line";
 import Panel from "../Reusable/Panel";
 import icon from '../../assets/icons8-google.svg'
 
-function SignupForm({ toggleView, username, password, email }) {
+function SignupForm({ toggleView}) {
     const dispatch = useDispatch();
     const [isTouch, setIsTouch] = useState(false);
     const [errors, setErrors] = useState({}); // State for validation errors
-
     const { createAccountWithEmail, signInWithGoogle } = useAuth();
 
-
+    const { username, password, email,error } = useSelector((state) => {
+        return {
+            username: state.form.username,
+            password: state.form.password,
+            email: state.form.email,
+            error:state.user.error
+        }
+    });
     const passwordError = isTouch && password.length < 8 ? "Password must be at least 8 characters" : null;
 
     const handleSubmit = (e) => {
@@ -103,6 +111,7 @@ function SignupForm({ toggleView, username, password, email }) {
                                 onChange={handlePasswordChange}
                             />
                         </div>
+                        <Error error={error} />
                         <div className="mt-3 flex flex-col items-center justify-center self-center flex-1 w-full">
                             <Button type="submit" onClick={handleSubmit} primary rounded className="w-36 items-center justify-center ">
                                 Sign Up

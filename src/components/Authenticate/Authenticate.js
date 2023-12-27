@@ -6,9 +6,11 @@ import { Navigate } from "react-router-dom";
 import LoadingScreen from "../Reusable/LoadingScreen";
 function Authenticate() {
     const [isLoginView, setIsLoginView] = useState(true);
+    
     const toggleView = () => {
         setIsLoginView(!isLoginView); // Toggle the view state
     };
+
     const { isLoading, isLoggedin, username, password, email } = useSelector((state) => {
         return {
             isLoding: state.user.isLoding,
