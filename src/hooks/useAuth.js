@@ -23,6 +23,7 @@ function useAuth() {
             }
             console.log(user);
             dispatch(logIn(user));
+            dispatch(setError(null));
         }
         catch (error) {
             dispatch(setError(error.message));
@@ -71,6 +72,7 @@ function useAuth() {
                 emailVerified: result.emailVerified,
             }
             dispatch(logIn(user));
+            dispatch(setError(null));
         }
         catch (error) {
             dispatch(setError(error.message));

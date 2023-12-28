@@ -1,17 +1,22 @@
-import Authenticate from "./components/Authenticate/Authenticate";
+
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import HomePage from "./components/Homepage";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { logIn, logOut } from "./store";
+import { logIn, logOut, setLoading } from "./store";
 import { auth } from "./firebase";
+import LoadingScreen from "./components/Reusable/LoadingScreen";
+import Authenticate from "./pages/Authenticate";
+import HomePage from "./pages/Homepage";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 function App() {
+    const [authCompleted, setAuthCompleted] = useState(false);
     const isLoggedin = useSelector((state) => state.user.isLoggedin);
+    const isLoading = useSelector((state) => state.user.isLoading);
     const dispatch = useDispatch();
+
     useEffect(() => {
-        auth.onAuthStateChanged((user) => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
             if (user) {
                 const currentUser = {
                     displayName: user.displayName,
@@ -25,28 +30,35 @@ function App() {
                     createdAt: user.metadata.createdAt,
                     lastRefreshAt: user.metadata.lastRefreshAt,
                     emailVerified: user.emailVerified,
-                }
-                
+                };
+
                 dispatch(logIn(currentUser));
-            }
-            else {
+            } else {
                 dispatch(logOut());
             }
-        })
+            setAuthCompleted(true);
+        });
 
-    })
+        return () => {
+            unsubscribe();
+        };
+    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(setLoading(false));
+    }, [dispatch]);
 
     return (
-        <Routes>
-            <Route path="/auth" element={<Authenticate />} />
-            <Route
-                path="/home"
-                element={
-                    isLoggedin ? <HomePage /> : <Navigate to="/auth" replace />
-                }
-            />
-            <Route path="/" element={<Navigate to="/home" replace />} />
-        </Routes>
+        authCompleted && (
+            isLoading ? <LoadingScreen isLoading={isLoading} /> :
+                <Routes>
+                    <Route path="/" element={<Authenticate />} />
+                    <Route path="/home" element={isLoggedin ? <HomePage /> : <Navigate to="/auth" replace />} />
+                    <Route path="/auth" element={<Authenticate />} />
+                    <Route path="*" element={<h1>404 Not Found</h1>} />
+                </Routes>
+
+        )
     );
 }
 

@@ -1,6 +1,6 @@
 import { GoSync } from "react-icons/go";
 
-const LoadingModal = ({ isLoading }) => (
+const LoadingScreen = ({ isLoading }) => (
     <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ${isLoading ? 'block' : 'hidden'}`}>
         <div className="bg-white p-8 rounded-lg shadow-lg">
             <div className="flex items-center justify-center mb-4">
@@ -11,4 +11,4 @@ const LoadingModal = ({ isLoading }) => (
     </div>
 );
 
-export default LoadingModal;
+export default LoadingScreen;

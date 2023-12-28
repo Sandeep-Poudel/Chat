@@ -76,6 +76,7 @@ function LoginForm({ toggleView }) {
                                 type="email"
                                 placeholder="Enter your email"
                                 value={email}
+                                error={errors.email}
                                 icon={<GoMail />}
                                 required
                                 onChange={handleEmailChange}
@@ -87,6 +88,7 @@ function LoginForm({ toggleView }) {
                                 type="password"
                                 placeholder="Enter your password"
                                 icon={<GoLock />}
+                                
                                 error={passwordError}
                                 onBlur={() => setIsTouch(true)}
                                 value={password}

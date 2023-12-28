@@ -1,9 +1,9 @@
-import LoginForm from "./LoginForm";
-import SignupForm from "./SignupForm";
+import LoginForm from "../components/Authenticate/LoginForm";
+import SignupForm from "../components/Authenticate/SignupForm";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import LoadingScreen from "../Reusable/LoadingScreen";
+import LoadingScreen from "../components/Reusable/LoadingScreen";
 function Authenticate() {
     const [isLoginView, setIsLoginView] = useState(true);
     
