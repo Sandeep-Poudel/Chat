@@ -1,5 +1,6 @@
 const Avatar = ({ name }) => {
-    const initials = name[0];
+
+    const initials = name ? name.charAt(0) : "#";
 
     return (
         <div className="flex items-center justify-center w-10 h-10 bg-blue-500 font-sm rounded-full">
