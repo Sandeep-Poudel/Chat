@@ -11,18 +11,18 @@ import Line from "../Reusable/Line";
 import Panel from "../Reusable/Panel";
 import icon from '../../assets/icons8-google.svg'
 
-function SignupForm({ toggleView}) {
+function SignupForm({ toggleView }) {
     const dispatch = useDispatch();
     const [isTouch, setIsTouch] = useState(false);
     const [errors, setErrors] = useState({}); // State for validation errors
     const { createAccountWithEmail, signInWithGoogle } = useAuth();
 
-    const { username, password, email,error } = useSelector((state) => {
+    const { username, password, email, error } = useSelector((state) => {
         return {
             username: state.form.username,
             password: state.form.password,
             email: state.form.email,
-            error:state.user.error
+            error: state.user.error
         }
     });
     const passwordError = isTouch && password.length < 8 ? "Password must be at least 8 characters" : null;
@@ -41,7 +41,7 @@ function SignupForm({ toggleView}) {
     };
 
 
-    
+
     const validateFormData = (data) => {
         const errors = {};
         if (!data.username || data.username.length < 4) {
@@ -117,7 +117,7 @@ function SignupForm({ toggleView}) {
                                 Sign Up
                             </Button>
 
-                            <div className="flex flex-row w-full items-center my-3">
+                            <div className="flex flex-row w-full items-center my-1">
                                 <Line />Or<Line />
                             </div>
 

@@ -1,7 +1,9 @@
-import { auth, provider } from '../firebase'
+import { auth, db, provider } from '../firebase'
 import { logIn, setError, setLoading, logOut, changePassword } from '../store'
 import { signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { useDispatch } from 'react-redux'
+import { doc, setDoc } from 'firebase/firestore'
+
 function useAuth() {
     const dispatch = useDispatch();
     const signInWithGoogle = async () => {
@@ -21,7 +23,7 @@ function useAuth() {
                 lastRefreshAt: result.metadata.lastRefreshAt,
                 emailVerified: result.emailVerified,
             }
-            console.log(user);
+            await createUser(user);
             dispatch(logIn(user));
             dispatch(setError(null));
         }
@@ -35,16 +37,29 @@ function useAuth() {
 
     }
 
+
+    const createUser = async (user) => {
+        console.log(user)
+        await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            email: user.email,
+        });
+        await setDoc(doc(db, "usersChat", user.uid), {});
+    }
+
     const createAccountWithEmail = async (username, email, password) => {
         dispatch(setLoading(true));
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-
             // Update user profile with display name
             await updateProfile(user, { displayName: username });
             // Log in the user after creating the account
             loginWithEmail(email, password);
+            await createUser(user);
+
         } catch (error) {
             dispatch(setError(error.message));
             console.log("create account ", error.message);
@@ -81,7 +96,7 @@ function useAuth() {
         finally {
             dispatch(changePassword(""));
             dispatch(setLoading(false));
-            
+
         }
 
 
