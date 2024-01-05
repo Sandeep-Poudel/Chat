@@ -77,6 +77,7 @@ function SignupForm({ toggleView }) {
                         <div className="mb-2">
                             <Input
                                 label="Username"
+                                name="username"
                                 type="text"
                                 required
                                 error={errors.username}
@@ -89,6 +90,7 @@ function SignupForm({ toggleView }) {
                         <div className="mb-2">
                             <Input
                                 label="Email"
+                                name="email"
                                 type="email"
                                 placeholder="Enter your email"
                                 value={email}
@@ -101,6 +103,7 @@ function SignupForm({ toggleView }) {
                         <div className="mb-2">
                             <Input
                                 label="Password"
+                                name="password"
                                 type="password"
                                 placeholder="Enter your password"
                                 icon={<GoLock />}
