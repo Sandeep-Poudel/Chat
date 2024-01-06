@@ -12,7 +12,7 @@ function Users() {
 
     return (
         isLoading ? <div className="flex flex-col self-start flex-1 py-10 px-4 w-full ">
-            <Skeleton times={5} dark className="w-full h-10 "/> 
+            <Skeleton times={8} dark className="w-full h-10 "/> 
         </div>:
         <div className="flex-grow flex-1 w-full flex justify-center " >
                 <div className="flex flex-col items-center justify-center">
