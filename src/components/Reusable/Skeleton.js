@@ -5,7 +5,6 @@ function Skeleton({ times,className ,...rest }) {
 
         'relative',
         'overflow-hidden',
-        'bg-gray-200',
         'rounded',
         'mb-2.5',
         rest.dark ? 'bg-gray-800' : 'bg-gray-200',
@@ -21,7 +20,7 @@ function Skeleton({ times,className ,...rest }) {
         'from-gray-200',
         'via-white',
         'to-gray-200',
-        rest.dark ? 'from-gray-700 to-gray-800 via-gray-600' : 'from-gray-200 to-gray-300'
+        rest.dark ? 'from-gray-800 to-gray-800 via-gray-700' : 'from-gray-200 to-gray-300'
     );
 
 
