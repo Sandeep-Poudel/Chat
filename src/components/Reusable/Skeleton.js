@@ -17,10 +17,7 @@ function Skeleton({ times,className ,...rest }) {
         'inset-0',
         '-translate-x-full',
         'bg-gradient-to-r',
-        'from-gray-200',
-        'via-white',
-        'to-gray-200',
-        rest.dark ? 'from-gray-800 to-gray-800 via-gray-600' : 'from-gray-200 to-gray-300'
+        rest.dark ? 'from-gray-800 to-gray-800 via-gray-700' : 'from-gray-200 via-white to-gray-200'
     );
 
 
