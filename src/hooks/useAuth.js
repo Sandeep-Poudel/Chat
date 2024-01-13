@@ -2,7 +2,7 @@ import { auth, db, provider } from '../firebase'
 import { logIn, setError, setLoading, logOut, changePassword } from '../store'
 import { signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { useDispatch } from 'react-redux'
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc } from 'firebase/firestore'
 
 function useAuth() {
     const dispatch = useDispatch();
@@ -23,8 +23,17 @@ function useAuth() {
                 lastRefreshAt: result.metadata.lastRefreshAt,
                 emailVerified: result.emailVerified,
             }
-            await createUser(user);
-            dispatch(logIn(user));
+            const existingUserDoc = await getDoc(doc(db, 'users', user.uid));
+
+            if (existingUserDoc.exists()) {
+                // User exists, fetch the user data
+                const existingUserData = existingUserDoc.data();
+                dispatch(logIn(existingUserData));
+            } else {
+                // User doesn't exist, create the user in the database
+                await createUser(user);
+                dispatch(logIn(user));
+            }
             dispatch(setError(null));
         }
         catch (error) {

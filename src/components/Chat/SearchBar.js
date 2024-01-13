@@ -22,7 +22,7 @@ function SearchBar({ currentuser }) {
                     [combinedId + ".userInfo"]: {
                         uid: user.uid,
                         displayName: user.displayName,
-                        photoUrl: user.photoUrl || null
+                        photoURL: user.photoURL || null
                     },
                     [combinedId + ".date"]: serverTimestamp()
                 })
@@ -31,7 +31,7 @@ function SearchBar({ currentuser }) {
                     [combinedId + ".userInfo"]: {
                         uid: currentuser.uid,
                         displayName: currentuser.displayName,
-                        photoUrl: currentuser.photoUrl || null
+                        photoURL: currentuser.photoURL ||    null
                     },
                     [combinedId + ".date"]: serverTimestamp()
                 })
@@ -63,11 +63,11 @@ function SearchBar({ currentuser }) {
     }
 
     const renderedUsers = users && users.map((user) => {
-        return (<User user={user} onClick={()=>handleAddUser(user)} />)
+        return (<User user={user} search onClick={()=>handleAddUser(user)} key={user.uid}/>)
     })
 
     return (
-        <div className="w-full ">
+        <div className="w-full border-b-2 border-gray-500 ">
             <form className="flex text-gray-400 items-center bg-gray-700  shadow-md" onSubmit={handleSearch}>
                 <input
                     type="text"

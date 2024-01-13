@@ -29,8 +29,8 @@ function Input({
                     type={type === "password" ? showPassword ? "text" : "password" : type}
                     placeholder={placeholder}
                     value={value}
-                    {...rest}
                     onChange={onChange}
+                    {...rest}
                 />
                 {type === "password" && (
                     <div className="cursor-pointer" onClick={() => setShowPassword(!showPassword)}>

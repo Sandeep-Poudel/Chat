@@ -88,7 +88,6 @@ function LoginForm({ toggleView }) {
                                 type="password"
                                 placeholder="Enter your password"
                                 icon={<GoLock />}
-                                
                                 error={passwordError}
                                 onBlur={() => setIsTouch(true)}
                                 value={password}
