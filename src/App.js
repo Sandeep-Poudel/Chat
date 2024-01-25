@@ -55,7 +55,7 @@ function App() {
                     <Route path="/" element={<Authenticate />} />
                     <Route path="/home" element={isLoggedin ? <HomePage /> : <Navigate to="/auth" replace />} />
                     <Route path="/auth" element={<Authenticate />} />
-                    <Route path="*" element={<h1>404 Not Found</h1>} />
+                    <Route path="*" element={<h1 className="min-h-screen w-full justify-center flex items-center">404 Not Found</h1>} />
                 </Routes>
 
         )

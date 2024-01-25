@@ -18,6 +18,9 @@ function Error({ error }) {
     if(error==="Firebase: Error (auth/invalid-credential)."){
         error="Invalid Credential"
     }
+    if(error === "Firebase: Error (auth/network-request-failed)."){
+        error= "No internet connection"
+    }
     return (
         error &&
         <div className="text-white text-sm p-1 my-2 font-bold  bg-red-400  rounded justify-center flex items-center">

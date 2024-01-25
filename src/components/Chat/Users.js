@@ -10,18 +10,21 @@ function Users({ currentUser }) {
 
     useEffect(() => {
         setIsLoading(true)
+        console.log("aksjdfkj")
         const fetchChats = async () => {
             const unsub = await onSnapshot(doc(db, 'usersChat', currentUser.uid), (doc) => {
                 console.log("Current data:", doc.data());
                 setChats(doc.data())
+                setIsLoading(false)
             })
             return () => {
                 unsub();
             }
         }
         currentUser.uid && fetchChats()
-        setIsLoading(false)
-    }, [currentUser.uid])
+        console.log("oasjdlfjksa")
+        
+    }, [])
     console.log(Object.entries(chats))
 
     const renderedUsers = Object.entries(chats).map(chat => {
@@ -36,12 +39,12 @@ function Users({ currentUser }) {
     console.log(renderedUsers)
 
     return (
-        isLoading ? <div className="flex flex-col self-start flex-1 py-10 px-4 w-full ">
-            <Skeleton times={8} dark className="w-full h-10 " />
+        isLoading ? <div className="flex flex-col self-start flex-1 py-4 px-4 w-full ">
+            <Skeleton times={5} dark className="w-full h-12 " />
+            
         </div> :
-
             chats ? (
-                <div className="flex flex-col w-full flex-1 justify-start items-start mb-2">
+                <div className="flex flex-col w-full flex-1 gap-1 justify-start items-start mb-2">
                     {renderedUsers}
                 </div>
             ) : (
